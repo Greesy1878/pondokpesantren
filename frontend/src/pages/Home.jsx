@@ -164,6 +164,12 @@ const Home = () => {
                   )}
                 </div>
               ))}
+              <Link
+                to="/admin/login"
+                className="ml-4 bg-[#80916f] text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-[#6f7f60]"
+              >
+                Admin
+              </Link>
             </div>
 
             {/* Mobile Menu Button */}
@@ -225,6 +231,12 @@ const Home = () => {
                   )}
                 </div>
               ))}
+              <Link
+                to="/admin/login"
+                className="ml-4 bg-[#80916f] text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-[#6f7f60]"
+              >
+                Admin
+              </Link>
             </div>
           </div>
         )}
@@ -709,9 +721,15 @@ const Home = () => {
               </div>
             </div>
             <div className="text-center">
-              <Button className="bg-[#80916f] hover:bg-[#80916f] text-white font-bold px-12 py-6 text-lg">
-                Daftar Sekarang
-              </Button>
+              <a
+                href="https://docs.google.com/forms/d/e/1FAIpQLSfj_ROTdxRM5-EmbOuvCU4eu2VtC2nehV6nf8DiftRlo6N6Xw/viewform?usp=header"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Button className="bg-[#80916f] hover:bg-[#6f7f60] text-white font-bold px-12 py-6 text-lg">
+                  Daftar Sekarang
+                </Button>
+              </a>
             </div>
           </div>
         </section>
@@ -777,7 +795,7 @@ const Home = () => {
       </div>
 
       {/* Footer */}
-      <footer className="bg-gradient-to-r from-green-800 to-green-700 text-white py-12">
+      <footer className="bg-[#80916f] hover:bg-[#80916f] text-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-3 gap-8">
             <div>

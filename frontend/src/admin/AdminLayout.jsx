@@ -1,0 +1,64 @@
+import { Link, Outlet, useNavigate } from "react-router-dom";
+import { LogOut } from "lucide-react";
+import {
+  LayoutDashboard,
+  Image,
+  BookOpen,
+  Users,
+  GraduationCap,
+} from "lucide-react";
+
+const menu = [
+  { name: "Dashboard", icon: LayoutDashboard, path: "/admin" },
+  { name: "Hero & Profil", icon: Image, path: "/admin/hero" },
+  { name: "Inspirasi", icon: BookOpen, path: "/admin/inspirasi" },
+  { name: "PMB", icon: GraduationCap, path: "/admin/pmb" },
+  { name: "Pengajar", icon: Users, path: "/admin/pengajar" },
+];
+
+export default function AdminLayout() {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("adminAuth");
+    navigate("/");
+  };
+
+  return (
+    <div className="min-h-screen flex bg-gray-100">
+      {/* SIDEBAR */}
+      <aside className="w-64 bg-[#80916f] text-white p-6 flex flex-col">
+        {/* HEADER */}
+        <h2 className="text-xl font-bold mb-6">Admin Tunas Qur’an</h2>
+
+        {/* MENU */}
+        <nav className="space-y-2 flex-1">
+          {menu.map((item, i) => (
+            <Link
+              key={i}
+              to={item.path}
+              className="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-[#6f7f60]"
+            >
+              <item.icon size={18} />
+              {item.name}
+            </Link>
+          ))}
+        </nav>
+
+        {/* 🔴 LOGOUT DI BAWAH */}
+        <button
+          onClick={handleLogout}
+          className="flex items-center gap-3 px-4 py-3 rounded-lg bg-red-500 hover:bg-red-600 font-semibold"
+        >
+          <LogOut size={18} />
+          Logout
+        </button>
+      </aside>
+
+      {/* CONTENT */}
+      <main className="flex-1 p-8">
+        <Outlet />
+      </main>
+    </div>
+  );
+}
