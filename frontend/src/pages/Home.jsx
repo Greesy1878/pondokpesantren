@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { Link } from "react-router-dom";
 import {
   Menu,
@@ -23,13 +24,14 @@ import {
   visiMisi,
   kurikulum,
   pengajar,
-  galleryImages,
   inspirasiPosts,
   usaha,
   ziswafInfo,
   pmbInfo,
   faqData,
 } from "../mockData";
+
+  const API_BASE = "http://localhost:8000";
 import {
   Card,
   CardContent,
@@ -55,12 +57,38 @@ const Home = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [currentHeroImage, setCurrentHeroImage] = useState(0);
   const [openSubmenu, setOpenSubmenu] = useState(null);
+  const [gallery, setGallery] = useState([]);
+  const [inspirasiList, setInspirasiList] = useState([]);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentHeroImage((prev) => (prev + 1) % heroImages.length);
     }, 5000);
     return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    const fetchGallery = async () => {
+      try {
+        const res = await axios.get(`${API_BASE}/api/gallery`);
+        setGallery(res.data || []);
+      } catch (err) {
+        console.error("Failed to fetch gallery:", err);
+      }
+    };
+    fetchGallery();
+  }, []);
+
+  useEffect(() => {
+    const fetchInspirasi = async () => {
+      try {
+        const res = await axios.get(`${API_BASE}/api/inspirasi`);
+        setInspirasiList(res.data || []);
+      } catch (err) {
+        console.error("Failed to fetch inspirasi:", err);
+      }
+    };
+    fetchInspirasi();
   }, []);
 
   const scrollToSection = (id) => {
@@ -477,7 +505,7 @@ const Home = () => {
             </TabsList>
             <TabsContent value="daily">
               <div className="grid md:grid-cols-3 gap-6">
-                {galleryImages
+                {gallery
                   .filter((img) => img.category === "daily")
                   .map((img, index) => (
                     <div
@@ -485,7 +513,7 @@ const Home = () => {
                       className="group relative overflow-hidden rounded-lg shadow-lg aspect-square"
                     >
                       <img
-                        src={img.url}
+                        src={img.url.startsWith("http") ? img.url : `${API_BASE}${img.url}`}
                         alt={img.title}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                       />
@@ -500,7 +528,7 @@ const Home = () => {
             </TabsContent>
             <TabsContent value="karya">
               <div className="grid md:grid-cols-3 gap-6">
-                {galleryImages
+                {gallery
                   .filter((img) => img.category === "karya")
                   .map((img, index) => (
                     <div
@@ -508,7 +536,7 @@ const Home = () => {
                       className="group relative overflow-hidden rounded-lg shadow-lg aspect-square"
                     >
                       <img
-                        src={img.url}
+                        src={img.url.startsWith("http") ? img.url : `${API_BASE}${img.url}`}
                         alt={img.title}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                       />
@@ -529,24 +557,26 @@ const Home = () => {
           <h2 className="text-4xl font-bold text-[#80916f] mb-12 text-center">
             Inspirasi
           </h2>
-          <Tabs defaultValue="pena-guru" className="w-full">
+          <Tabs defaultValue="Ruang Pena" className="w-full">
             <TabsList className="grid w-full max-w-2xl mx-auto grid-cols-4 mb-8">
-              <TabsTrigger value="pena-guru">Ruang Pena</TabsTrigger>
-              <TabsTrigger value="gali-hikmah">Gali Hikmah</TabsTrigger>
-              <TabsTrigger value="celoteh-santri">Celoteh Santri</TabsTrigger>
-              <TabsTrigger value="One Day Motivation">
-                One Day Motivation
-              </TabsTrigger>
+              {[
+                "Ruang Pena",
+                "Kisah Inspiratif",
+                "Tadabbur",
+                "One Day Motivation",
+              ].map((cat) => (
+                <TabsTrigger key={cat} value={cat}>{cat}</TabsTrigger>
+              ))}
             </TabsList>
             {[
-              "pena-guru",
-              "gali-hikmah",
-              "celoteh-santri",
+              "Ruang Pena",
+              "Kisah Inspiratif",
+              "Tadabbur",
               "One Day Motivation",
             ].map((category) => (
               <TabsContent key={category} value={category}>
                 <div className="grid md:grid-cols-2 gap-6">
-                  {inspirasiPosts
+                  {inspirasiList
                     .filter((post) => post.category === category)
                     .map((post, index) => (
                       <Card
@@ -561,7 +591,7 @@ const Home = () => {
                         </CardHeader>
                         <CardContent>
                           <p className="text-gray-700 leading-relaxed">
-                            {post.excerpt}
+                            {post.content || post.excerpt}
                           </p>
                         </CardContent>
                       </Card>

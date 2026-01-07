@@ -3,6 +3,7 @@ import AdminLayout from "../admin/AdminLayout";
 import Dashboard from "../admin/Dashboard";
 import PMBAdmin from "../admin/PMBAdmin";
 import InspirasiAdmin from "../admin/InspirasiAdmin";
+import GalleryCreate from "../admin/GalleryCreate";
 import ProtectedAdmin from "../admin/ProtectedAdmin";
 
 export default function AdminRoutes() {
@@ -13,6 +14,7 @@ export default function AdminRoutes() {
           <Route index element={<Dashboard />} />
           <Route path="pmb" element={<PMBAdmin />} />
           <Route path="inspirasi" element={<InspirasiAdmin />} />
+          <Route path="gallery" element={<GalleryCreate />} />
         </Route>
       </Route>
     </Routes>

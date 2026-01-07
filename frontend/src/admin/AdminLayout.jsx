@@ -6,6 +6,7 @@ import {
   BookOpen,
   Users,
   GraduationCap,
+  
 } from "lucide-react";
 
 const menu = [
@@ -14,6 +15,8 @@ const menu = [
   { name: "Inspirasi", icon: BookOpen, path: "/admin/inspirasi" },
   { name: "PMB", icon: GraduationCap, path: "/admin/pmb" },
   { name: "Pengajar", icon: Users, path: "/admin/pengajar" },
+  { name: "Gallery", icon: Image, path: "/admin/gallery" },
+
 ];
 
 export default function AdminLayout() {
